@@ -149,41 +149,84 @@ NutriSense/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.10+
-- Git
-- PostgreSQL (for database features)
+
+Before you begin, make sure you have these installed:
+
+- **Python 3.10+** — download from python.org/downloads. During install on Windows, check "Add python.exe to PATH".
+- **Git** — download from git-scm.com/downloads
+- **PostgreSQL** — download from postgresql.org/download. Remember the password you set for the postgres user during install.
 
 ### Installation
 
+**1. Clone the repository**
+
 ```bash
-# 1. Clone the repository
 git clone https://github.com/SIKESOMS/NutriSense.git
 cd NutriSense
+```
 
-# 2. Create virtual environment
+**2. Create and activate a virtual environment**
+
+```bash
 python -m venv venv
+```
 
-# 3. Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# Mac/Linux:
-source venv/bin/activate
+Activate it:
 
-# 4. Install dependencies
+- Windows (PowerShell): `venv\Scripts\Activate.ps1`
+- Windows (Command Prompt): `venv\Scripts\activate.bat`
+- Mac/Linux: `source venv/bin/activate`
+
+You'll know it worked if you see `(venv)` at the start of your terminal prompt.
+
+**3. Install backend dependencies**
+
+```bash
 pip install -r requirements.txt
+```
 
-# 5. Set up environment variables
-# Create a .env file with:
-# USDA_API_KEY=your_usda_key_here
-# ANTHROPIC_API_KEY=your_anthropic_key_here
-# DATABASE_URL=postgresql://postgres:password@localhost/nutrisense
+**4. Set up your PostgreSQL database**
 
-# 6. Run the server
+Open "SQL Shell (psql)" (installed with PostgreSQL), press Enter through the default prompts, enter your postgres password, then run:
+
+```sql
+CREATE DATABASE nutrisense;
+```
+
+**5. Create your .env file**
+
+In the project root, create a file named `.env` with:
+
+```env
+USDA_API_KEY=your_usda_key_here
+ANTHROPIC_API_KEY=your_anthropic_key_here
+DATABASE_URL=postgresql://postgres:your_postgres_password@localhost/nutrisense
+```
+
+- Get a free USDA key at fdc.nal.usda.gov/api-key-signup.html
+- Get an Anthropic key at console.anthropic.com/settings/keys (optional — only needed for the AI chatbot feature; the rest of the app works without it)
+- Replace `your_postgres_password` with the password you set in step 4
+
+**6. Run the backend server**
+
+```bash
 uvicorn main:app --reload
 ```
 
-### Access the API
-- **API Base:** `http://127.0.0.1:8000`
+You should see "Uvicorn running on http://127.0.0.1:8000" with no errors.
+
+**7. Set up and run the frontend** (in a separate terminal)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Access the App
+
+- **Frontend:** http://localhost:5173 (or whatever port Vite shows)
+- **Backend API Base:** http://127.0.0.1:8000
 - **Interactive Docs:** `http://127.0.0.1:8000/docs`
 - **Health Check:** `http://127.0.0.1:8000/health`
 
