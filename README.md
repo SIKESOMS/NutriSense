@@ -62,7 +62,8 @@ NutriSense solves all of these problems in one integrated pipeline.
 ## ✨ Features
 
 ### ✅ Implemented (Phase 1–4)
-- **Multi-item Food Detection** — ViT model fine-tuned on Food-101 with quadrant-splitting for detecting multiple items on a single tray
+
+- **Multi-item Food Detection** — ViT model (Food-101 pretrained) with quadrant-splitting for detecting multiple items on a single tray. ⚠️ *Currently trained on Food-101 (international dishes) — accuracy on Indian/Karnataka dishes is limited since the model hasn't been fine-tuned on local food images yet. This is a known limitation, tracked for Phase 5.*
 - **4-Layer Nutrition Lookup** — Priority-based lookup chain:
   1. Karnataka Local DB (ragi mudde, jolada rotti, bisibelebath, sajje rotti...)
   2. IFCT 2017 — NIN Hyderabad (528 Indian foods)
@@ -71,11 +72,13 @@ NutriSense solves all of these problems in one integrated pipeline.
 - **Compliance Engine** — Checks against Karnataka MDM Scheme + ICMR-NIN 2020 + FSSAI + WHO standards
 - **Student Supplement Tracking** — Tracks egg, banana, milk, chikki distributed separately from tray
 - **Tap-to-Select UI API** — Returns structured supplement options for frontend rendering
+- **React Dashboard (Frontend)** — Tray image upload, supplement selector, compliance report with nutrient breakdown, bar chart visualization, and floating AI chatbot widget (gracefully prompts for API key if not configured)
 
 ### 🔄 In Progress (Phase 5–7)
+
+- Fine-tuning food detection model on Indian/Karnataka food images for improved accuracy
 - Face recognition attendance tracking (DeepFace)
-- Agentic AI layer (LangChain — orchestrator, suggestion, planner agents)
-- React dashboard with compliance trend charts
+- Agentic AI layer (LangChain — orchestrator, suggestion, planner agents) — chatbot endpoint scaffolded, requires ANTHROPIC_API_KEY to activate
 - PostgreSQL meal logging with user linkage
 - Email/SMS alert system for canteen managers
 
@@ -267,6 +270,13 @@ B.M.S. College of Engineering, Bengaluru — 560 019
 
 **Course:** Project Work 2 (24AM7PWPW2)
 **Academic Year:** 2026–27
+
+---
+
+## ⚠️ Known Limitations
+
+- **Food detection accuracy on Indian dishes**: The current ViT model is pretrained on Food-101, a Western food dataset. It performs well on foods with visual similarity to Food-101 classes but misclassifies Karnataka-specific dishes it has never seen. Fine-tuning on a labeled Indian food dataset is planned for Phase 5.
+- **AI Chatbot**: Requires a valid ANTHROPIC_API_KEY in .env to function. Without one, the chatbot UI gracefully displays a prompt asking the user to configure the key rather than failing silently.
 
 ---
 
