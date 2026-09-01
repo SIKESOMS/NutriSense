@@ -108,6 +108,13 @@ async def analyze_tray(file: UploadFile = File(...)):
     # Step 4: Check compliance against Karnataka MDM thresholds
     compliance_report = compliance.check(meal_nutrition)
 
+    return {
+        "filename": file.filename,
+        "tray_items": [r["food"] for r in nutrition_results],
+        "meal_nutrition_total": meal_nutrition,
+        "compliance": compliance_report
+    }
+
 @app.post("/analyze-tray-complete")
 async def analyze_tray_complete(
     file: UploadFile = File(...),
@@ -208,6 +215,18 @@ async def analyze_tray_complete(
     # Step 5: Compliance check
     compliance_report = compliance.check(meal_nutrition)
 
+    return {
+        "filename": file.filename,
+        "tray_items": [r["food"] for r in nutrition_results],
+        "supplements_reported": supplement_data,
+        "meal_nutrition_total": meal_nutrition,
+        "compliance": compliance_report,
+        "breakdown": {
+            "from_tray": nutrition_results,
+            "from_supplements": supplement_results
+        }
+    }
+
 @app.get("/supplements/options")
 def get_supplement_options():
     """
@@ -271,15 +290,3 @@ def get_supplement_options():
         "scheme": "Karnataka Mid-Day Meal Scheme"
     }
 
-    return {
-        "filename": file.filename,
-        "tray_items": [r["food"] for r in nutrition_results],
-        "supplements_reported": supplement_data,
-        "meal_nutrition_total": meal_nutrition,
-        "compliance": compliance_report,
-        "breakdown": {
-            "from_tray": nutrition_results,
-            "from_supplements": supplement_results
-        }
-    }
-   
